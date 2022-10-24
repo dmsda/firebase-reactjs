@@ -5,7 +5,7 @@ import { AppBar, Box, Button, Toolbar, Typography } from "@mui/material";
 // Di sini kita akan menggunakan useNavigate untuk bisa keluar dari halaman HomePage dan
 // beralih ke halaman Login
 import { useNavigate } from "react-router-dom";
-
+import { logOut } from "../auth/firebase";
 import styles from "./NavBar.module.css";
 
 const NavBar = () => {
@@ -13,6 +13,7 @@ const NavBar = () => {
   const navigate = useNavigate();
 
   const buttonLogoutOnClickHandler = () => {
+    logOut();
     navigate("/login");
   };
 

@@ -2,6 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
+import ProtectedComponent from "../src/components/ProtectedComponent";
 
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
@@ -13,7 +14,12 @@ root.render(
   <React.StrictMode>
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<App />} />
+      
+        <Route path="/" element={
+        <ProtectedComponent>
+        <App />
+        </ProtectedComponent>
+        } />
         <Route path="login" element={<LoginPage />} />
         <Route path="register" element={<RegisterPage />} />
       </Routes>

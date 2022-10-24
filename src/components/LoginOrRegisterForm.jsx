@@ -6,6 +6,9 @@ import styles from "./LoginOrRegisterForm.module.css";
 
 import { Grid, Box, Button, TextField, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
+import { auth, signIn, signUp } from "../auth/firebase";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { useEffect } from "react";
 
 // Karena nantinya kita bisa berpindah ke halaman LoginPage (setelah Register)
 // ataupun ke halaman HomePage (setelah Login), maka kita bisa memanfaatkan useNavigate
@@ -19,6 +22,8 @@ const LoginOrRegisterForm = ({ loginOrRegister }) => {
     email: "",
     password: "",
   });
+
+  const [user,isLoading,error] = useAuthState(auth);
 
   const textFieldEmailOnChangeHandler = (event) => {
     // Karena state berupa Object
@@ -40,13 +45,15 @@ const LoginOrRegisterForm = ({ loginOrRegister }) => {
   };
 
   const loginHandler = () => {
-    console.log("Login");
-    navigate("/");
+    // console.log("Login");
+    signIn(credential.email,credential.password);
+    // navigate("/");
   };
 
   const registerHandler = () => {
-    console.log("Register");
-    navigate("/login");
+    // console.log("Register");
+    // navigate("/login");
+    signUp(credential.email,credential.password);
   };
 
   const buttonLoginOrRegisterOnClickHandler = () => {
@@ -56,6 +63,16 @@ const LoginOrRegisterForm = ({ loginOrRegister }) => {
       registerHandler();
     }
   };
+
+  useEffect(() => {
+    if (isLoading) {
+      return;
+    }
+    if (user) {
+      navigate("/");
+    }
+    
+  }, [user,isLoading,navigate]);
 
   return (
     <Grid
